@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import java.io.FileNotFoundException;
 
 public class HelloController {
-    public Label bigLabel;
+    public static Label bigLabel;
     @FXML
     private Label welcomeText;
 

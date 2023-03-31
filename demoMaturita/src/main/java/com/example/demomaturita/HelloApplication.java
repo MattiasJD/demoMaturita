@@ -10,19 +10,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.spi.DecimalFormatSymbolsProvider;
 import java.util.*;
 
 public class HelloApplication extends Application {
 
 
-    public static String FROM;
-    public static String TO;
+    public static String FROM = "Adrian Babis";
+    public static String TO = "Pitomio Vokamura";
     public static Double MONEY;
     public static int ID = 0;
     public static List<Transaction> MAP = new LinkedList<>();
+    public static ArrayList<String> USEDNAMES = new ArrayList<>();
+    public static Double [] PERCENTAGE = {0.0,0.301,0.176,0.125,0.097,0.079,0.067,0.058,0.051,0.046};
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
@@ -53,14 +53,35 @@ public class HelloApplication extends Application {
             MAP.add(transaction);
             ID++;
         }
-        checkTransaction("Adrian Babis","Milous Zeman");
+        checkTransaction();
     }
-    public static void checkTransaction(String from, String to){
+/**** nefunguje :(
+    public static void nameChooser(){
+        for (Transaction transaction : MAP) {
+            if (USEDNAMES.contains(transaction.getFROM())){
+                continue;
+            } else {
+                USEDNAMES.add(transaction.getFROM());
+            }
+        }
+        return;
+    }
+***/
+    public static void checkTransaction(){
         ArrayList<Double> love = new ArrayList<>();
-        for (int j = 0; j < MAP.size(); j++) {
-                if (from.equals(MAP.get(j).getFROM()) && to.equals(MAP.get(j).getTO())){
-                    love.add(MAP.get(j).getMONEY());
-                }
+        ///for (int i = 0; i < USEDNAMES.size(); i++) {
+            ///FROM = USEDNAMES.get(i);
+            ///for (String usedname : USEDNAMES) {
+                ///TO = usedname;
+                if (!Objects.equals(TO, FROM)) {
+                    for (Transaction transaction : MAP) {
+                        if (FROM.equals(transaction.getFROM()) && TO.equals(transaction.getTO())) {
+                            love.add(transaction.getMONEY());
+                        }
+                    }
+                ///}
+           /// }
+            ///nameChooser();
         }
         benfordsLaw(love);
     }
@@ -77,10 +98,18 @@ public class HelloApplication extends Application {
             numMap.put(firstDigit, digitCount);
         }
         for(Map.Entry<Character, Integer> entry : numMap.entrySet()) {
+            int in = 0;
             Character number = entry.getKey();
             double size = moneys.size();
-            double d = entry.getValue()/ (double)size;
+            double d = entry.getValue()/size;
             System.out.format("%c --> %f\n", number, d);
+            if (d-PERCENTAGE[in]>0.1 || PERCENTAGE[in]-d >0.1){
+                System.out.println("this is sussy");
+               ///HelloController.bigLabel.setText(TO+" and "+FROM+" are sussy");
+           } else{
+                System.out.println("they're ok");
+           }
+            in += 1;
         }
     }
 
